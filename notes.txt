@@ -1,2 +1,77 @@
 Angular can be considered as platform more than just a framework
 Prerequisites :- NodeJs and Typescript
+you can open the repo in github codespace and run it from there.
+
+*****Chapter 01 
+
+Part 1 : About Angular
+- Developed at Google
+- Focused on exnteding HTML markup with custom attributes and
+  dynamic content instead of using JS to generate the HTML at runtime
+- It allowed to keep tempelate separate from controllers
+
+Part 2 : Release and Support Cycles
+- Angular uses semantic versioning to track changes and releases.
+- SEM VER is both a strategy and a naming convention that helps you
+  know exactly what to expect from each new release
+- 3 types of Release
+    - Major release: big new release( need changes in code and api) - Every 6 months 
+    - Minor release: small new release that are backward compatible - 2 to 3 before next major release
+    - Patch release: low-risk fixes for bugs and securties - Once per week
+- Supports each new release for 18 months
+    - 6 months Active Support : minor and patch releases provided
+    - 12 monts LTS : only patch releases provided
+- Angular releases all the updated version of their core packages with each new release
+  to ensure everything once together. All the dependency update can be made using the ng 
+  update command of angular cli.
+
+Part 3 : Licencing
+- released under MIT licence which means it is open source
+- its use is very permissive
+- MIT Licence is compatible with 
+    - GNU general public licence
+    - Debian's free Software guidlines
+    - Free Software Foundations
+    - Open Source Initiatives
+- cons of MIT licence
+    - Lack of warranty
+    - copyright holders cannot be held liable
+
+Part 4 : More about angular
+- originally used to develop single page applications
+- SPA - where content updates dynamically without the need to refresh the browser
+- without angular, dev had to embed the html tempelate inside JS files
+  and manipulate the dom directly
+- there is nothing wrong with this approach but angular just does things differently
+- today the angular ecosystem has evovled to use libraries, components, routing etc
+- a platform - as you can build any type of application at scale write out of the box
+- its main advantage is the ecosystem of compatible tools that work together
+  like a unified platform
+- to handle breaking changes during an update - follow the recommended upgrade path
+
+Part 5 : Workflow and tooling
+
+- 1. Angular CLI - official CL tool for angular projects under MIT
+    - new version of CLI is release with new frameworks
+    - eg version 15 of cli will work with angular 15
+    - easy to upgrade all dependency at once
+    - called ng command
+    - Five imp command
+        - ng build : compile code and output files into a build dire
+        - ng serve : compile colde, launch a dev server, and watch for
+                    file changes
+        - ng generate : add new files using Angular's built in boiler-plates
+        - ng lint and ng test: run Angular's lint and unit testing tool
+
+- 2. Angular Language Service - tells code editor how to work with 
+  Angular code
+
+- 3. Angular dev Tools - a browser extenstion that gives you detailed
+  debugging information in real time when running your application 
+  in browser.
+
+- 4. Angular Schematics - Collection of custom code to reuse accross 
+  multiple projects. ( the ng generate commands uses Schematics
+  under the hood to populate new files with the correct boilerplate
+  content)
+
