@@ -1,0 +1,2 @@
+Angular can be considered as platform more than just a framework
+Prerequisites :- NodeJs and Typescript
