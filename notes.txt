@@ -75,3 +75,200 @@ Part 5 : Workflow and tooling
   under the hood to populate new files with the correct boilerplate
   content)
 
+*****Chapter 2
+
+Part 1 - Angular Decorators
+
+- Angular cannot be used without decorators
+- functions that return functions
+- supply metadata about the piece of code to angular 
+    - telling what the code should do
+    - how it should inject code into other parts of the app
+- marked using an @ symbol
+- Invoked at runtime with arguments either b/w the parenthesis
+  or immediately after the closing parentthesis of the decorators
+
+- Common built in Decorators
+    -@NgModule() for modules
+    -@Component() for components
+    -@Injectable() to define injectables
+    -@Piper() to define pipes 
+    -@Directives() for Directives
+    -@Input() for data flowing into the component
+    -@Output() for data flowing out of the component
+    - more in official angular decorators
+
+- Common decorator errors
+    -Missing (), props, or prop values
+    -adding semicolon at the end of the decorator
+- In older version errors were reported during runtime and not at
+  compile time
+- use the ng build and ng serve command to find errors at compilation
+
+Part 2 - Angular modules
+
+- A collection of files that work together
+- might include components services and pipes
+- helps angular figure out how all the parts of the application 
+  work together
+- starting v14+ , we can use standalone components where we can 
+  use files without assigning them to a module first
+
+//Steps to create an angular project from scratch
+- make sure you have node js and vs code installed
+- next we have to install anngular cli which can be done using two ways
+  - globally using npm i @angular/cli@ver -g
+  - or an older version locally into your new project using : npx -p @angular/cli@ver ng new hello-world-project
+    - if you use ng -v the global version will be used, if you use npx ng -v the local version in the repo will be used
+
+-to create a new workspace we can do the following
+  - ng new hotelinventoryapp --createApplication= False //for no default files and setup
+  - ng new hotelinverntoryapp //for default files 
+
+-angular will first make the configurations file and then download the dependency using npm install
+ if this process is cancelled or stopped you can rerun the npm install command manually inside the project directory
+
+- If we have opted out of creating a defualt application we can do ng g app hotelinventoryapp inside the project
+  directory to get the default project files under a newly created folder called project/hotelinventoryapp
+
+- when we run ng new app-name the directory structure is different. the contents of project/hotelinventoryapp are
+  directly available under the root project folder instead
+
+------------------------------Workspace Walkthrough---------------
+
+--Starting from the bottom
+
+ -tsconfig.spec.json and tsconfig.app.json extends tsconfig.json file
+ -tsconfig.spec.json - angular generates all the unit testing files with extention spec.ts which are included in the ts env
+  by this file and the transpiled output is generated in /out-tsc/spec all of which is handled by angular cli.
+ -tsconfig.app.json will compile the rest of the code and produce the output in /out-tsc/app,
+   it will track the main.ts file
+
+ -karma.conf.ts - the task runner which is used to run the unit test. 
+  angular comes with default unit testing framework called jasmine
+
+- angular.json holds the current project informations
+
+- editorconfig - to bring in the configurations of some other editor - open it to see the comments for better clearity
+
+--- in src folder 
+-styles.scss is the global stylesheet file any changes in the ui to be reflected in the code will be made here
+
+
+- browserlistrc - tell you the list of browser which you project will support
+
+-polyfills.ts 
+  - polyfills are the piece of code which is added in the development environment to support a modern feature in older 
+    browser who do not natively support the feature
+  - polyfills.ts will contain all the polyfill code
+  - some polyfills are required by angular like zone.js 
+    
+    - core-js: This polyfill provides support for the latest JavaScript features, such as ES6 modules and promises.
+    - zone.js: This polyfill provides support for the Angular Zone API, which is used to run Angular applications in 
+               a web browser. This is imported by default in this file in angular.
+    - reflect-metadata: This polyfill provides support for the Reflect API, which is used to access metadata about 
+               Angular classes and properties.
+
+  - we can also add our own polyfills in this file.
+
+- main.ts -  applicatin entry point
+- index.ts - the main html file of the Single Page Applications , more details to follow
+- environments folder - contains the environment variables for production and dev environments
+                      - env values should be added to both files
+- assets - will contain the images and static files (w.r.t frontend)
+
+- app folder 
+  - contains the files we will be modifying according to our needs
+
+- ng serve  - use to run the application , pass -o flag to open the app in ur default browser 
+------------------Introduction to mono repo-----------------
+- we can  
+  - Create and maintain multiple apps in the same repo
+  - Use libraries within the project
+  - deploy mutliple apps/libs from same repo
+  - ease to share code within the project
+  - npx ng app <app-name> to create a new app within the project folder <already discussed above>
+
+- In angular.json all the projects will be listed
+  - project type - application(working code with FE visuals) or library(reusable code)
+  - in architectect.options - we see the details and path of all the important files of angular 
+  - we can change the names of the file but the mapping should be made here properly
+  - we can add all the stylessheets , scripts and assets we want to use here
+
+---------Workflow of code----
+
+- From main.ts to  app.module.ts
+- In angular everything( component and module) is a class
+- to bootstrap the application we need atleast one module called the AppModule() which is the root module
+- In future we might not need this module for bootstrapping the application
+- the root module( AppModule in this case) is passed as params in the bootstrapModule function 
+
+- we are using a class decorator named @NgModule here to add props to this module passed as params
+- decorators change the behaviour of a class
+- We are providing the metadata information as params
+- The params object will have
+  -Name of the Components,Directives, Pipes used passed in declerations array
+  -Name of other modules to be used default or custom, passed in the imports arrays
+  -bootstrap : name of the component which should be loaded first when the module is loaded
+
+-------Components-------
+
+- Views which will rendered to the end user
+- Whenever we declare or make a component 4 files are loaded with it
+  - app.component.ts, app.component.html, app.component.scss( or css ), app.module.ts, app.component.spec.yaml
+  - we will have one root component too. 
+
+- The component.ts will be the main component file which will have the properties
+  
+  - in the selector the current component is defined as app-root , we have used this app-root tag to import the component
+    in index.html. We will define tags in each component in the selector options.
+     Note : One thing Note is here that app-root can be a common html tag name. Same tag name could be present in libraries
+            we download for styling like bootstrap etc. Html5 may add an app-root tag in the future in which case this
+            generic name would break the code. 
+            To avoid this we prefix the selector names with the organization/project name.
+            In this case we will add "hinv"(Hotel INVentory) as property.prefix in angular.json file and also update it 
+            in index.html, and also in the selector name of the component.
+            to reflect the changes made in angular.json we will have to restart the serve. 
+
+  
+  - add the html code of the current component in app.component.html
+    Changes only in src folder will be watched by ng-serve
+    I have renamed the default app.component.html as app-default.component.ts,contains useful links.
+    we can also add html to componenet inline  , template : `<h1>hello world from inline component</h1>
+                                                              <p>Angular is awesome</p>             
+                                                              `,
+  
+  - similarly we can add style directly using the styles property instead of using the styles url
+    -styles : [`h1{ color : red; }`] we can use inline sass too.
+
+- TO Generate a new component : npx ng generate component component_name or npx ng g c rooms
+  we have to add this new component selector tag 'hinv-rooms' in the root component.html for it to reflect changes
+
+
+----------Template Syntax-------
+
+
+- Binding Syntax - making information form the components to its html tempelate
+
+  - Interpolation
+    - any basic information like date, number, string can be binded
+    - in the Rooms Component class add this line : hotelName = "Hilton Hotel"
+    - you can then use this variable in component.html file like this : <h1>Welcome to {{hotelName}}</h1>
+
+  - Property Binding 
+    - Angular allows the use of native Html properties for binding the information to a tag property using box sytax
+     eg. <div [innerText]="numberOfRooms"></div>
+
+  - Event Binding
+    - Angular allows binding events defined in the component using the banana syntax :
+        <div [hidden]="hideRooms">
+            Number of Rooms : 
+          <div [innerText]="numberOfRooms"></div>    
+        </div>
+        <button (click)="toggle()">Toggle</button>
+
+- You can use the debugger on browser in - inspect -> sources > webpacks -> src.
+  add breakpoints and track the changes on the application
+  use ctrl + t to search and open files directly in the inspect section
+
+
