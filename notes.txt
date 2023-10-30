@@ -247,8 +247,9 @@ Part 2 - Angular modules
 
 ----------Template Syntax-------
 
+A template combines HTML with Angular markup that can modify HTML elements before they are displayed.
 
-- Binding Syntax - making information form the components to its html tempelate
+- Binding Syntax - binding the application data and the DOM
 
   - Interpolation
     - any basic information like date, number, string can be binded
@@ -271,4 +272,98 @@ Part 2 - Angular modules
   add breakpoints and track the changes on the application
   use ctrl + t to search and open files directly in the inspect section
 
+- variables are used within the tag directly eg <div [hidden]="hideRooms">
+- variables are used outside dom like this <div> {{hideRooms}} </div>
+- string literals are used within tags in single quotes = <div [innerText] = "'this is a string literal'">
+- banana syntax for functions in the tag
+- box syntax for properties in the tag
+
+------Directives-----
+- Directives are used to change the behaviour and appearance of DOM element
+- Directives can implement all lifecycle hooks -- later discussed
+- Directive can not have tempelate - they will just have logic
+
+-Before a view is displayed, Angular evaluates the directives and resolves the binding syntax in the template to modify 
+ the HTML elements and the DOM, according to your program data and logic.
+
+- go through : https://angular.io/guide/architecture-components#directives
+
+- Types of Directive
+  - Structural Directives - used to add/remove elements of the dom which might give performance issues - have * prefixed
+  - Attribute Directives - used to change the attributes of the dom elements
+
+- format : <directive-name> = "<directive specific code>"
+
+- Built in Directives
+  1-*ngIf
+    - In the past example of displaying the number of rooms on button toggle, we are displaying or hiding the div
+      based on hiddenRoom value. Even in the hidden state the div is loaded in the dom but is not displayed which 
+      reduces the performance of the app. using ngIf Directive we can load :
+      <div *ngIf="rooms.availableRooms > 0">
+        Rooms List
+      </div> //This element will be loaded in the dom if availRooms > 0 hence increasing performance
+    - It is recommended to use this ngIf
+  
+  --side note : 
+
+    -optional-chaining :  //if rooms was not defined this would have thrown error
+      <div *ngIf="rooms?.availableRooms"> //if this value is greater than 0 it will automatically be true
+          Rooms List
+      </div> 
+
+    -nullish coalescing : {{ rooms.availableRooms ?? 'No rooms'}}
+    if rooms?.availableRooms is undefined then 'No rooms' will be printed otherwise no of available rooms will be
+
+  2-*ngFor
+    - we have created a new variable called roomlist which is an array describing each room. When this is displayed
+      directly we only see [object] written on the browser. To view them properly we will use ngFor. In the upcoming
+      videos we will use Angular Material for better integration.
+
+      <div *ngIf="rooms.availableRooms > 0">
+          Rooms List
+          <table>
+              <tr>
+                  <th>Index</th>
+                  <th>Even/Odd</th>
+                  <th>Room Number</th>
+                  <th>Room Type</th>
+                  <th>Room Price</th>
+                  <th>Room Amenities</th>
+                  <th>CheckinTime</th>
+              </tr>
+              <tr *ngFor="let room of roomList; let e=even; let o = odd ; let i=index">
+                  <td>{{i+1}}</td>
+                  <td>{{e ? "Even":"Odd"}}</td>
+                  <td>{{room.roomNumber}}</td>
+                  <td>{{room.roomType}}</td>
+                  <td>{{room.price}}</td>
+                  <td>{{room.amenities}}</td>
+                  <td>{{room.checkInTime}}</td>
+              </tr>
+          </table>
+      </div>
+
+  3.*ngSwitch : just like switch case
+     a variable role is made in app.component.ts and this is accessed in app.component.html to render respective view
+    
+    <div [ngSwitch]="role"> //"role" = variable
+      <div *ngSwitchCase="'user'">Welcome User !</div> //"'user'" = string literal
+      <div *ngSwitchCase="'admin'"><hinv-rooms></hinv-rooms></div>
+      <div *ngSwitchDefault>Please Login first !!</div>
+    </div>
+
+  4. ngClass : create two classes in rooms.component.scss : 
+                .even { background-color: steelblue; color: white;}
+                .odd {background-color: tomato;color: white;}
+      modify the tr which holds the table data as follows  
+      <tr 
+            [ngClass]="e? 'even': 'odd'"
+            *ngFor="let room of roomList; let e=even; let o = odd ; let i=index"
+      >
+
+  5. ngStyle : used to add styles inline :
+      <div
+        [ngStyle]="{'color' : rooms.availableRooms? 'green' : 'red'}" 
+        [innerText]="numberOfRooms"
+      >                                           
 
