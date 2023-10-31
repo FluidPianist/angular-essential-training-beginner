@@ -400,4 +400,17 @@ A template combines HTML with Angular markup that can modify HTML elements befor
        go to angular.json and under your project name in the styles array add the relative path of the stylesheet
        'node_modules/bootstrap/dist/css/bootstrap.min.css"
 
---lifecycle Hooks
+-------lifecycle Hooks---------
+- Component instance has lifecycle hooks which can help you to hook into different events on components
+- lifecycle ends when a component is destroyed
+- few LifeCycle hooks 
+  - ngOnChanges
+  - ngOnInit
+  - ngDoCheck
+  - ngAfterContentInit
+  - ngAfterContentChecked
+  - ngAfterViewInit
+  - nfAfterViewChecked
+  - ngOnDestroy
+- you will notice that for  room.component.ts file there is an interface OnInit and behaviour inside the class
+  called ngOnInit
