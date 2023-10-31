@@ -26,7 +26,8 @@ export class RoomsComponent implements OnInit {
       price : 1000,
       photos : 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131',
       checkInTime : new Date('11-Nov-2011'),
-      checkOutTime : new Date('13-Nov-2011')
+      checkOutTime : new Date('13-Nov-2011'),
+      rating : 4.66
     },
     {
       roomNumber : 2,
@@ -35,7 +36,8 @@ export class RoomsComponent implements OnInit {
       price : 1500,
       photos : 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131',
       checkInTime : new Date('12-Nov-2011'),
-      checkOutTime : new Date('15-Nov-2011')
+      checkOutTime : new Date('15-Nov-2011'),
+      rating: 4.32
     },
     {
       roomNumber : 3,
@@ -44,7 +46,8 @@ export class RoomsComponent implements OnInit {
       price : 500,
       photos : 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131',
       checkInTime : new Date('12-Nov-2011'),
-      checkOutTime : new Date('15-Nov-2011')
+      checkOutTime : new Date('15-Nov-2011'),
+      rating : 4.25
     }
   ]
 
