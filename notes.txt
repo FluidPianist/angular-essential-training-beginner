@@ -367,3 +367,37 @@ A template combines HTML with Angular markup that can modify HTML elements befor
         [innerText]="numberOfRooms"
       >                                           
 
+-----------Pipes-----------
+
+- https://angular.io/guide/architecture-components#pipes
+- pipes are used for data transformations
+- pipes dont change actual object
+
+- Built in Pipes
+  1 DatePipe 
+    - <td>{{room.checkInTime | date : 'short'}}</td>
+    - more on https://angular.io/api/common/DatePipe
+
+  2 uppercase | lowercase | titlecase
+  3 currency : 'INR'
+  4 percent : 1 is 100 % , 0.5 is 50 %
+  5 JsonPipe : {{roomList | json}} //should be used for debugging purpose only
+  6 SlicePipe : {{roomList | slice : 0:1 | json}} //use slice for serverside pagination
+  7 AsyncPipe : //later on
+  8 number : <td>{{room.rating | number : '1.0-1'}}</td> 
+              //0 - 1 indicates the min - max number of place after decimal point to round off to.
+              //In some countries , is used instead of . as decimal separator - we can do so as well.
+
+---------Adding Bootstrap----------
+- We are going to use ngx bootstrap - an implementation for angular
+- if we are inside the hotelinventory app we will automatically use the local angular cli i.e @13 and not the global @16
+- use the command : ng add ngx-bootstrap , to find and download the compatible version of ngx-bootstrap with ang version
+- always use the ng command to download third party packages
+- if we have downloaded using cli to then we dont need anything else otherwise  
+- if you have downloaded bootstrap 5 manually then there are two ways you can go about it:
+    1. add @import "~bootstrap/dist/css/bootstrap.min.css" in global stylesheet in src
+    2. this method works for adding any kind of css.
+       go to angular.json and under your project name in the styles array add the relative path of the stylesheet
+       'node_modules/bootstrap/dist/css/bootstrap.min.css"
+
+--lifecycle Hooks
