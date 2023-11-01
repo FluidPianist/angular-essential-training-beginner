@@ -401,16 +401,69 @@ A template combines HTML with Angular markup that can modify HTML elements befor
        'node_modules/bootstrap/dist/css/bootstrap.min.css"
 
 -------lifecycle Hooks---------
+
 - Component instance has lifecycle hooks which can help you to hook into different events on components
 - lifecycle ends when a component is destroyed
+
 - few LifeCycle hooks 
   - ngOnChanges
+
   - ngOnInit
+    - you will notice that for  room.component.ts file there is an interface OnInit which has defined ngOnInit() function
+    - in the component class we have a constructor which is invoked first on instance creation.
+    - then ngOnInit function is invoked which contains some blocking code (eg.api calls for fetching data to be rendered) 
+      which should not be contained in the constructor
+    -  
+
   - ngDoCheck
   - ngAfterContentInit
   - ngAfterContentChecked
   - ngAfterViewInit
   - nfAfterViewChecked
   - ngOnDestroy
-- you will notice that for  room.component.ts file there is an interface OnInit and behaviour inside the class
-  called ngOnInit
+
+
+- Component Communication
+ 
+  - we are going to create another component inside rooms and then pass the rooms-list information there.
+    so that the rooms-list html table becomes reusable.
+
+  - multiple ways to achieve interaction between components :
+      
+      1. using @Input and @Output 
+        - to pass the roomlist value to the room-list component we are going to add the line room-list.comp.ts
+          : @Input() rooms : RoomList[] = []; , now rooms variable is availabe to use in the room-list component
+        - add the following line in room.component.html for use : <hinv-rooms-list [rooms]="roomList"></hinv-rooms-list>
+        - make sure any styles you have defined in rooms.component should be redefined in global stylesheet so that
+          it is applied in room-list component too.
+        - Rooms is the parent/smart while room-list is child/dumb component.
+        - for enterprise code : try to make your component as small as possible ,
+
+        - to output the data from the child component , lets say we are passing info about a room user has selected
+          from the room-list component back to the rooms component :
+
+           - add @Output() selectedRoom = new EventEmitter<RoomList>(); in room-list.component.ts
+                //This creates a new EventEmitter object and assigns it to the selectedRoom property. 
+                  The Output() decorator tells Angular that the selectedRoom property is an output property, which means 
+                  that it can be used to emit events to other components.
+                //The EventEmitter<RoomList> type tells Angular that the selectedRoom property can emit events that 
+                  contain RoomList objects.
+                //the selectedRoom is the event , much like click is an event
+           
+           - selectRoom(room : RoomList){ this.selectedRoom.emit(room); }
+                 //we will use the function to trigger the selectedRoom event when the select button is pressed
+
+           - for each row in the table we add a select button :
+              <td> <button class="btn btn-primary", (click)="selectRoom(room)"> Select </button></td>
+              //when click event is triggered, the 'on' cb will execute the selectRoom() function with room data
+                which was clicked on. this selectRoom function will in turn trigger the 'selectedRoom' event as defined prev.
+           
+           - In the parent component we are binding the selectedRoom event with the printroom function.
+              <hinv-rooms-list 
+                [rooms]="roomList"
+                (selectedRoom)="printRoom($event)" //$event contains the data passed when selectedRoom event is emitted/triggerd
+              ></hinv-rooms-list>
+              //printroom is the 'on' cb to selectedRoom event much like selectRoom was to click event 
+
+      - using @ViewChild and @ContentChild
+      - using Services
